@@ -13,15 +13,37 @@ function AppCtrl($scope, $http) {
 }
 
 function MyCtrl1($scope, Data, $q, $filter) {
+    /* DATA INITIALIZATION */
     $scope.data = [];
     $scope.treedata = [];
     $scope.dates = [];
     $scope.col_defs = [];
     $scope.expanding_property='location';
     
-    //$scope.last_update = $filter('date')(new Date(), 'short');
-
+    /* AUTO-REFRESH TIMER CURRENT SETTINGS: refresh every 120 seconds */
+    var timer = {
+        interval: null,
+        seconds: 120,
+        
+        start: function() {
+            var self = this;
+            this.interval = setInterval(function() {
+                self.seconds--;
+                
+                if (self.seconds == 0){
+                    $window.location.reload();
+                }
+            }, 1000);
+        },
+        
+        stop: function() {
+            window.clearInterval(this.interval)
+        }
+    }
     
+    timer.start();
+    
+    /* FUNCTIONS - ADD DATA FROM JSON TO TREEGRID DATA */
     function addNewEntry(location_id, type, data) {
         var datum;
         var value = data.value + ' ' + data.unit + ', ' + data.description;
