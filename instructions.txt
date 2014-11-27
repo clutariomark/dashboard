@@ -1,0 +1,52 @@
+ec2-user@ec2-54-68-160-36.us-west-2.compute.amazonaws.com
+
+sudo yum update -y
+sudo yum groupinstall -y "Web Server" "MySQL Database" "PHP Support"
+sudo yum install -y php-mysql
+sudo service httpd start
+sudo chkconfig httpd on
+chkconfig --list httpd
+ls -l /var/www
+sudo groupadd www
+sudo usermod -a -G www ec2-user
+exit
+groups
+sudo chown -R root:www /var/www
+sudo chmod 2775 /var/www
+find /var/www -type d -exec sudo chmod 2775 {} +
+find /var/www -type f -exec sudo chmod 0664 {} +
+echo "<?php phpinfo(); ?>" > /var/www/html/phpinfo.php
+rm /var/www/html/phpinfo.php
+sudo service mysqld start
+sudo mysql_secure_installation
+sudo service mysqld stop
+sudo chkconfig mysqld on
+
+sudo yum install gcc-c++ make
+sudo yum install openssl-devel
+sudo yum install git
+git clone git://github.com/joyent/node.git
+cd node
+
+./configure
+make
+sudo make install
+
+sudo su
+nano /etc/sudoers
+
+sudo chown -R $USER /usr/local
+sudo npm install -g express-generator
+
+mkdir socketio-test
+cd socketio-test
+express
+npm install
+
+versions
+mysql 5.5.38
+npm 1.4.28
+node 0.13.0-pre
+express 4.9.0
+
+--noded usr/local/bin/node
