@@ -21,36 +21,48 @@ angular.module('myApp.services')
 
 angular.module('myApp.services')
   .factory('Data', function($http, Config){
-    var getHighWinds = function(success, error) {
-        $http.get(Config.api_url + '/data/high_winds').success(success).error(error);
-      };
+        var getGaleWarning = function() {
+            //return $http.get(Config.api_url + '/data/gale_warning');
+            return $http.get('gale_warning.json');
+        };
 
-    var getStrongRains =  function(success, error) {
-        $http.get(Config.api_url + '/data/strong_rains').success(success).error(error);
-      };
+        var getRainfallAdvisory =  function() {
+            //return $http.get(Config.api_url + '/data/rainfall_advisory');
+            return $http.get('rainfall_advisory.json');
+        };
 
-    var getLandslides =  function(success, error) {
-        $http.get(Config.api_url + '/data/landslide').success(success).error(error);
-      };
+        var getLandslides =  function() {
+            //return $http.get(Config.api_url + '/data/landslide');
+            return $http.get('landslide.json');
+        };
 
-    var getFlooding = function(success, error) {
-        $http.get(Config.api_url + '/data/flooding').success(success).error(error);
-      };
+        var getFlooding = function() {
+            //return $http.get(Config.api_url + '/data/flooding');
+            return $http.get('flooding.json');
+        };
 
-    var getStormSurge = function(success, error) {
-        $http.get(Config.api_url + '/data/storm_surge').success(success).error(error);
-      };
+        var getStormSurge = function() {
+            //return $http.get(Config.api_url + '/data/storm_surge');
+            return $http.get('storm_surge.json');
+        };
 
-    var getPublicStormSignal = function(success, error) {
-        $http.get(Config.api_url + '/data/public_storm_signal').success(success).error(error);
-      };
+        var getPublicStormSignal = function() {
+            //return $http.get('public_storm_signal.json');
+            return $http.get('public_storm_signal.json');
+        };
 
-    return {
-      getHighWinds: getHighWinds,
-      getStrongRains: getStrongRains,
-      getLandslides: getLandslides,
-      getFlooding: getFlooding,
-      getStormSurge: getStormSurge,
-      getPublicStormSignal: getPublicStormSignal
-    };
+        var getGeneralAdvisory = function() {
+            //return $http.get(Config.api_url + '/data/generaladvisory');
+            return $http.get('generaladvisory.json');
+        };
+
+        return {
+            getGaleWarning: getGaleWarning,
+            getRainfallAdvisory: getRainfallAdvisory,
+            getLandslides: getLandslides,
+            getFlooding: getFlooding,
+            getStormSurge: getStormSurge,
+            getPublicStormSignal: getPublicStormSignal,
+            getGeneralAdvisory: getGeneralAdvisory
+        };
   })

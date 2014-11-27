@@ -12,206 +12,228 @@ function AppCtrl($scope, $http) {
   });
 }
 
-function MyCtrl1() {}
-MyCtrl1.$inject = [];
+function MyCtrl1($scope, Data, $q, $filter) {
+    $scope.data = [];
+    $scope.treedata = [];
+    $scope.dates = [];
+    $scope.col_defs = [];
+    $scope.expanding_property='location';
+    
+    //$scope.last_update = $filter('date')(new Date(), 'short');
 
+    
+    function addNewEntry(location_id, type, data) {
+        var datum;
+        var value = data.value + ' ' + data.unit + ', ' + data.description;
 
-function MyCtrl2($scope, Data, $filter) {
-  
-
-  $scope.data = [];
-  $scope.last_update = $filter('date')(new Date(), 'short');
-  $scope.last_update_highwinds = $filter('date')(new Date(), 'short');
-  $scope.last_update_strong_rains = $filter('date')(new Date(), 'short');
-  $scope.last_update_flooding = $filter('date')(new Date(), 'short');
-  $scope.last_update_landslides = $filter('date')(new Date(), 'short');
-  $scope.last_update_storm_surge = $filter('date')(new Date(), 'short'); 
-  $scope.last_update_public_storm_signal = $filter('date')(new Date(), 'short'); 
-
-  $scope.aggAffectedProvince = function (row) {
-    console.log(row);
-    var datum = row.children[0].entity;
-    var str = '';
-    if(datum.highwinds && datum.highwinds.split(',')[0] > 500) {
-
-      str += 'HW: ' + datum.location + '; ';
+        datum = {location: data.region};
+        datum[type] = true;
+        datum['children'] = [{location: data.province}];
+        datum['children'][0][type] = true;
+        datum['children'][0]['children'] = [{location: data.location}];
+        datum['children'][0]['children'][0][type] = value;
+        $scope.data.push(datum);
+    }
+    
+    function doGaleWarning() {
+        return Data.getGaleWarning()
+            .then(function (data) {
+                for (var index in data.data) {
+                    var gale_warning = data.data[index];
+                    addNewEntry(gale_warning.location_id, 'gale_warning', gale_warning);
+                }
+                $scope.dates.push(new Date(data.headers('last-modified')));
+                $scope.last_update_gale_warning = $filter('date')(new Date(data.headers('last-modified')), 'short');
+                console.log(data.headers('last-modified'));
+                return data;
+            }, function (error) {
+                console.log(error);
+            });
     }
 
-    if(datum.strong_rains && datum.strong_rains.split(',')[0] > 500) {
-      str += 'SR: ' + datum.location + '; ';
+    function doRainfallAdvisory() {
+        return Data.getRainfallAdvisory()
+            .then(function (data) {
+                for (var index in data.data) {
+                    var rainfall_advisory = data.data[index];
+                    addNewEntry(rainfall_advisory.location_id, 'rainfall_advisory', rainfall_advisory);
+                }
+                $scope.dates.push(new Date(data.headers('last-modified')));
+                $scope.last_update_rainfall_advisory = $filter('date')(new Date(data.headers('last-modified')), 'short');
+                console.log(data.headers('last-modified'));
+                return data;
+            }, function (error) {
+                console.log(error);
+            });
     }
 
-    if(datum.flooding && datum.flooding.split(',')[0] > 500) {
-      str += 'FL: ' + datum.location + '; ';
+    function doLandslides() {
+        return Data.getLandslides()
+            .then(function (data) {
+                for (var index in data.data) {
+                    var landslide = data.data[index];
+                    addNewEntry(landslide.location_id, 'landslide', landslide);
+                }
+                $scope.dates.push(new Date(data.headers('last-modified')));
+                $scope.last_update_landslides = $filter('date')(new Date(data.headers('last-modified')), 'short');
+                console.log(data.headers('last-modified'));
+                return data;
+            }, function (error) {
+                console.log(error);
+            });
     }
 
-    if(datum.landslide && datum.landslide.split(',')[0] > 500) {
-      str += 'LS: ' + datum.location + '; ';
+    function doFlooding() {
+        return Data.getFlooding()
+            .then(function (data) {
+                for (var index in data.data) {
+                    var flooding = data.data[index];
+                    addNewEntry(flooding.location_id, 'flooding', flooding);
+                }
+                $scope.dates.push(new Date(data.headers('last-modified')));
+                $scope.last_update_flooding = $filter('date')(new Date(data.headers('last-modified')), 'short');
+                console.log(data.headers('last-modified'));
+                return data;
+            }, function (error) {
+                console.log(error);
+            });
     }
 
-    if(datum.storm_surge && datum.storm_surge.split(',')[0] > 500) {
-      str += 'SS: ' + datum.location + '; ';
+    function doStormSurge() {
+        return Data.getStormSurge()
+            .then(function (data) {
+                for (var index in data.data) {
+                    var storm_surge = data.data[index];
+                    addNewEntry(storm_surge.location_id, 'storm_surge', storm_surge);
+                }
+                $scope.dates.push(new Date(data.headers('last-modified')));
+                $scope.last_update_storm_surge= $filter('date')(new Date(data.headers('last-modified')), 'short');
+                console.log(data.headers('last-modified'));
+                return data;
+            }, function (error) {
+                console.log(error);
+            });
     }
 
-    if(datum.public_storm_signal && datum.public_storm_signal.split(',')[0] > 500) {
-      str += 'PSS: ' + datum.location + '; ';
+    function doPublicStormSignal() {
+        return Data.getPublicStormSignal()
+            .then(function (data) {
+                for (var index in data.data) {
+                    var public_storm_signal = data.data[index];
+                    addNewEntry(public_storm_signal.location_id, 'public_storm_signal', public_storm_signal);
+                }
+                $scope.dates.push(new Date(data.headers('last-modified')));
+                $scope.last_update_public_storm_signal = $filter('date')(new Date(data.headers('last-modified')), 'short');
+                console.log(data.headers('last-modified'));
+                return data;
+            }, function (error) {
+                console.log(error);
+            });
     }
 
-    return str;
-  }
-
-  $scope.aggGetRegionName = function (row) {
-    return row.children[0].entity.region;
-  }
-
-  $scope.aggAffectedProvinceForType = function (type, row) {
-    var datum = row.children[0].entity;
-    var str = '';
-    if(type == 'HW' && datum.highwinds && datum.highwinds.split(',')[0] > 500) {
-      str += 'HW: ' + datum.location + '; ';
+    function doGeneralAdvisory() {
+        return Data.getGeneralAdvisory()
+            .then(function (data) {
+                for (var index in data.data) {
+                    var generaladvisory = data.data[index];
+                    addNewEntry(generaladvisory.location_id, 'generaladvisory', generaladvisory);
+                }
+                $scope.dates.push(new Date(data.headers('last-modified')));
+                $scope.last_update_general_advisory = $filter('date')(new Date(data.headers('last-modified')), 'short');
+                console.log(data.headers('last-modified'));
+                return data;
+            }, function (error) {
+                console.log(error);
+            });
     }
+    
+    function mergePK(data) {
+        var index = {}, result = [],
+            key, src, dest;
 
-    if(type == 'SR' && datum.strong_rains && datum.strong_rains.split(',')[0] > 500) {
-      str += 'SR: ' + datum.location + '; ';
+        function copyProps(src, dest) {
+            for (var key in src) {
+                if (src.hasOwnProperty(key) && key !== "location" && key !== "children") {
+                    dest[key] = src[key];
+                }
+            }
+        }
+
+        for (var i = 0; i < data.length; i++) {
+            src = data[i];
+            key = src.location;
+            // see if we already have a value for this PK that we should use
+            // or need to create a new one
+            if (index.hasOwnProperty(key)) {
+                dest = index[key];
+                //console.log(index[key]);
+            } else {
+                index[key] = dest = {location: key};
+                result.push(dest);
+                //console.log({location:key});
+            }
+            // src is the object we're copying from
+            // dest is the destination PK object that we want
+            // to merge into
+
+            // copy properties at the same level
+            copyProps(src, dest);
+            if (src.children && src.children.length) {
+                // add merged children
+                var mergedChildren = mergePK(src.children);
+                //console.log(i + ' ' + mergedChildren);
+                if (mergedChildren.length) {
+                    if (!dest.children) {
+                        dest.children = [];
+                    }
+                    //dest.children.push(mergedChildren);
+                    dest.children.push.apply(dest.children, mergedChildren);
+                }
+
+            }
+        }
+        //console.log(index);
+        //console.log(result[0]);
+        return result;
     }
-
-    if(type == 'FL' && datum.flooding && datum.flooding.split(',')[0] > 500) {
-      str += 'FL: ' + datum.location + '; ';
-    }
-
-    if(type == 'LS' && datum.landslide && datum.landslide.split(',')[0] > 500) {
-      str += 'LS: ' + datum.location + '; ';
-    }
-
-    if(type == 'SS' && datum.storm_surge && datum.storm_surge.split(',')[0] > 500) {
-      str += 'SS: ' + datum.location + '; ';
-    }
-
-    if(type == 'PSS' && datum.public_storm_signal && datum.public_storm_signal.split(',')[0] > 500) {
-      str += 'PSS: ' + datum.location + '; ';
-    }
-
-    return str;
-  }
-
-  function addNewEntry(location_id, type, data) {
-    var datum;
-    var value = data.value + ', ' + data.description;
-    for(var index in $scope.data) {
-      datum = $scope.data[index];
-      if(datum.location_id == location_id) {
-        datum[type] = value;
-        console.log(type, '<----');
-        return;
-      }
-    }
-
-    datum = {location_id: location_id, location: data.location, region: data.region};
-    datum[type] = value;
-    //just create a new entry
-    $scope.data.push(datum);
-  }
-  
-  function getHighWinds () {
-    Data.getHighWinds(function (data) {
-      for(var index in data) {
-        var highwind = data[index];
-        addNewEntry(highwind.location_id, 'highwinds', highwind);
-      }
-
-    }, function (error) {
+    
+    $q.all([
+        doPublicStormSignal(),
+        doGaleWarning(),
+        doRainfallAdvisory(),
+        doFlooding(),
+        doLandslides(),
+        doStormSurge(),
+        doGeneralAdvisory()
+    ]).then(function (responses) {
+        var tempdata;
+        var temptempdata = [];
+        tempdata = mergePK($scope.data);
+        for (var i in tempdata){
+            tempdata[i].children = mergePK(tempdata[i].children)
+            for (var j in tempdata[i].children){
+                tempdata[i].children[j].children = mergePK(tempdata[i].children[j].children);        
+            }
+            //console.log(tempdata[i]);
+            temptempdata.push(tempdata[i]);
+        }
+        $scope.treedata = temptempdata;
+        // you can now modify $scope.data here
+        
+        $scope.last_update = $filter('date')(new Date(Math.max.apply(null, $scope.dates)), 'short');
+        
+        $scope.col_defs.push({field:'public_storm_signal', displayName: 'Public Storm Signal (' + $scope.last_update_public_storm_signal + ')'});
+        $scope.col_defs.push({field:'gale_warning', displayName: 'Gale Warning (' + $scope.last_update_gale_warning + ')'});
+        $scope.col_defs.push({field:'rainfall_advisory', displayName: 'Rainfall Advisory (' + $scope.last_update_rainfall_advisory + ')'});
+        $scope.col_defs.push({field:'flooding', displayName: 'Flooding (' + $scope.last_update_flooding + ')'});
+        $scope.col_defs.push({field:'landslide', displayName: 'Landslide (' + $scope.last_update_landslides + ')'});
+        $scope.col_defs.push({field:'storm_surge', displayName: 'Storm Surge (' + $scope.last_update_storm_surge + ')'});
+        $scope.col_defs.push({field:'generaladvisory', displayName: 'General Advisory (' + $scope.last_update_general_advisory + ')'});       
 
     });
-  }
-  
-  function getStrongRains () {
-    Data.getStrongRains(function (data) {
-      for(var index in data) {
-        var strongRains = data[index];
-        addNewEntry(strongRains.location_id, 'strong_rains', strongRains);
-      }
-    }, function (error) {
-      console.log(error);
-    });
-  }
-
-  function getLandslides () {
-    Data.getLandslides(function (data) {
-      for(var index in data) {
-        var landslide = data[index];
-        addNewEntry(landslide.location_id, 'landslide', landslide);
-      }
-    }, function (error) {
-      console.log(error);
-    });
-  }
-
-  function getFlooding() {
-    Data.getFlooding(function (data) {
-      for(var index in data) {
-        var flooding = data[index];
-        addNewEntry(flooding.location_id, 'flooding', flooding);
-      }
-    }, function (error) {
-      console.log(error);
-    });
-  }
-
-  function getStormSurge() {
-    Data.getStormSurge(function (data) {
-      for(var index in data) {
-        var storm_surge = data[index];
-        addNewEntry(storm_surge.location_id, 'storm_surge', storm_surge);
-      }
-    }, function (error) {
-      console.log(error);
-    });
-  }
-
-  function getPublicStormSignal() {
-    Data.getPublicStormSignal(function (data) {
-      for(var index in data) {
-        var public_storm_signal = data[index];
-        addNewEntry(public_storm_signal.location_id, 'public_storm_signal', public_storm_signal);
-      }
-    }, function (error) {
-      console.log(error);
-    });
-  }
-
-  getHighWinds();
-  getStrongRains();
-  getFlooding();
-  getLandslides();
-  getStormSurge();
-  getPublicStormSignal();
-
-
-  $scope.gridOptions = { data: 'data', 
-                  groups: ['region'],
-                  //aggregateTemplate: '<div ng-click="row.toggleExpand()" ng-style="rowStyle(row)" class="ngAggregate"> <span class="ngAggregateText">{{row.label CUSTOM_FILTERS}} (provinces: {{row.totalChildren()}}; {{AggItemsLabel}} Affected provinces: {{aggAffectedProvince(row)}})</span> <div class="{{row.aggClass()}}"></div> </div>',
-                  aggregateTemplate: '<div ng-click="row.toggleExpand()" ng-style="rowStyle(row)" class="ngAggregate"> '+
-                                        '<div class="red regionHeader">Region {{aggGetRegionName(row)}}</div> '+
-                                        '<div class="group otherHeader"></div> '+
-                                        '<div class="group otherHeader">{{aggAffectedProvinceForType("HW", row)}}</div> '+
-                                        '<div class="group otherHeader">{{aggAffectedProvinceForType("SR", row)}}</div> '+
-                                        '<div class="group otherHeader">{{aggAffectedProvinceForType("FL", row)}}</div> '+
-                                        '<div class="group otherHeader">{{aggAffectedProvinceForType("LS", row)}}</div> '+
-                                        '<div class="group otherHeader">{{aggAffectedProvinceForType("SS", row)}}</div> '+
-                                        '<div class="group otherHeader">{{aggAffectedProvinceForType("PSS", row)}}</div> '+
-                                        '</div> '+
-                                        '</div>',
-                  columnDefs : [{field: 'region', displayName: 'Region', width: 60},
-                                {field: 'location', displayName: 'Location'},
-                                {field: 'highwinds', displayName: 'Highwinds(' + $scope.last_update_highwinds + ')'},
-                                {field: 'strong_rains', displayName: 'Strong Rains (' + $scope.last_update_highwinds + ')'},
-                                {field: 'flooding', displayName: 'Flooding (' + $scope.last_update_highwinds + ')'},
-                                {field: 'landslide', displayName: 'Landslides (' + $scope.last_update_highwinds + ')'},
-                                {field: 'storm_surge', displayName: 'Storm Surge (' + $scope.last_update_storm_surge + ')'},
-                                {field: 'public_storm_signal', displayName: 'Public Storm Signal (' + $scope.last_update_public_storm_signal + ')'}
-                                ]
-                        };
-
-  $('.gridStyle').css('height', window.screen.height);
+    
+    
 }
-MyCtrl2.$inject = ['$scope', 'Data', '$filter'];
+MyCtrl1.$inject = ['$scope', 'Data', '$q', '$filter'];
+
+
