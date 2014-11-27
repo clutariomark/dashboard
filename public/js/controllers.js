@@ -118,6 +118,15 @@ function MyCtrl1($scope, Data, $q, $filter, leafletEvents, leafletData) {
         });
     }
     
+    $scope.showMap = true;
+    $scope.$watch("showMap", function(value) {
+        if (value === false) {
+            leafletData.getMap().then(function(map) {
+                map.invalidateSize();
+            });
+        }
+    });
+    
     /* FUNCTIONS - ADD DATA FROM JSON TO TREEGRID DATA */
     function addNewEntry(location_id, type, data) {
         var datum;

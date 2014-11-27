@@ -1,7 +1,15 @@
 .row
   .col-lg-12
     p Last update: {{last_update}}
+    div
+       button(ng-click="showMap=true", class="btn btn-primary btn-file") Table View
+       button(ng-click="showMap=false", class="btn btn-primary btn-file") Map View
     
-      tree-grid(tree-data='treedata', expand-level="1", expand-on="expanding_property", col-defs="col_defs")
-      br
-      leaflet(defaults='defaults', center='philippines', geojson='geojson', legend='legend', events='events')
+    br
+    br
+    div(ng-model="showMap")
+        div(ng-hide="!showMap", ng-cloak)
+            tree-grid(tree-data='treedata', expand-level="1", expand-on="expanding_property", col-defs="col_defs")
+        div(ng-hide="showMap", ng-cloak)
+            {{ geojson.selected.properties.PROVINCE || 'No province selected' }}
+            leaflet(defaults='defaults', center='philippines', geojson='geojson', legend='legend', events='events')
