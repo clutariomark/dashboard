@@ -33,6 +33,16 @@ var FIELD_KEYS = config.FIELD_KEYS;
 * Accepts csv files for the data
 */
 exports.submit = function (req, res) {
+  console.log('<------------------------------------------->');
+  for(var propertyName in req.headers){
+    console.log('headers.property: ' + propertyName + ' - ' + req.headers[propertyName]);
+  }
+  console.log('<------------------------------------------->');
+  for(var propertyName in req.files){
+    console.log('headers.property: ' + propertyName + ' - ' + req.headers[propertyName]);
+  }
+  console.log('<------------------------------------------->');
+  
   var type = req.params.type.split('.')[0];
   if(!type || !config.data.hasOwnProperty(type)) {
     return res.send(404, 'Invalid type. Not supported');

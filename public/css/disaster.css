@@ -1,0 +1,67 @@
+@font-face {
+  font-family: 'disaster';
+  src: url('disaster.eot?11983709');
+  src: url('disaster.eot?11983709#iefix') format('embedded-opentype'),
+       url('disaster.woff?11983709') format('woff'),
+       url('disaster.ttf?11983709') format('truetype'),
+       url('disaster.svg?11983709#disaster') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+/* Chrome hack: SVG is rendered more smooth in Windozze. 100% magic, uncomment if you need it. */
+/* Note, that will break hinting! In other OS-es font will be not as sharp as it could be */
+/*
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+  @font-face {
+    font-family: 'disaster';
+    src: url('../font/disaster.svg?11983709#disaster') format('svg');
+  }
+}
+*/
+ 
+ [class^="icon-"]:before, [class*=" icon-"]:before {
+  font-family: "disaster";
+  font-style: normal;
+  font-weight: normal;
+  speak: none;
+ 
+  display: inline-block;
+  text-decoration: inherit;
+  width: 1em;
+  margin-right: .2em;
+  text-align: center;
+  /* opacity: .8; */
+ 
+  /* For safety - reset parent styles, that can break glyph codes*/
+  font-variant: normal;
+  text-transform: none;
+     
+  /* fix buttons height, for twitter bootstrap */
+  line-height: 1em;
+ 
+  /* Animation center compensation - margins should be symmetric */
+  /* remove if not needed */
+  margin-left: .2em;
+ 
+  /* you can be more comfortable with increased icons size */
+  /* font-size: 120%; */
+ 
+  /* Uncomment for 3D effect */
+  /* text-shadow: 1px 1px 1px rgba(127, 127, 127, 0.3); */
+}
+ 
+.icon-flood:before { content: '\e800'; } /* '' */
+.icon-warning:before { content: '\e801'; } /* '' */
+.icon-gale:before { content: '\e802'; } /* '' */
+.icon-landslide:before { content: '\e803'; } /* '' */
+.icon-stormsurge:before { content: '\e804'; } /* '' */
+.icon-hail-inv:before { content: '\e805'; } /* '' */
+.icon-attention:before { content: '\e806'; } /* '' */
+.icon-wind:before { content: '\e807'; } /* '' */
+.icon-signal1:before { content: '\e808'; } /* '' */
+.icon-signal2:before { content: '\e809'; } /* '' */
+.icon-plus-squared:before { content: '\e80a'; } /* '' */
+.icon-minus-squared:before { content: '\e80b'; } /* '' */
+.icon-location:before { content: '\e80c'; } /* '' */
+.icon-signal3:before { content: '\e80d'; } /* '' */
+.icon-signal4:before { content: '\e80e'; } /* '' */

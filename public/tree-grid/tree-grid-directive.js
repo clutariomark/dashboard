@@ -22,13 +22,13 @@
                               </a><span class=\"indented tree-label headercolumn\" ng-click=\"user_clicks_branch(row.branch)\">\
                                 {{row.branch[expandingProperty]}}</span>\
                           </td>\
-                          <td><a ng-show=\"row.branch.public_storm_signal && !row.branch.expanded\">&nbsp;&nbsp;{{row.branch.public_storm_signal}}</a></td>\
-                          <td><a ng-show=\"row.branch.gale_warning && !row.branch.expanded\">&nbsp;&nbsp;{{row.branch.gale_warning}}</a></td>\
-                          <td><a ng-show=\"row.branch.rainfall_advisory && !row.branch.expanded\">&nbsp;&nbsp;{{row.branch.rainfall_advisory}}</a></td>\
-                          <td><a ng-show=\"row.branch.flooding && !row.branch.expanded\">&nbsp;&nbsp;{{row.branch.flooding}}</a></td>\
-                          <td><a ng-show=\"row.branch.landslide && !row.branch.expanded\">&nbsp;&nbsp;{{row.branch.landslide}}</a></td>\
-                          <td><a ng-show=\"row.branch.storm_surge && !row.branch.expanded\">&nbsp;&nbsp;{{row.branch.storm_surge}}</a></td>\
-                          <td><a ng-show=\"row.branch.generaladvisory && !row.branch.expanded\">&nbsp;&nbsp;{{row.branch.generaladvisory}}</a></td>\
+                          <td><a class = \"icon-signal1\" ng-show=\"row.branch.public_storm_signal && !row.branch.expanded\">&nbsp;&nbsp;{{row.branch.public_storm_signal}}</a></td>\
+                          <td><a class = \"icon-gale\" ng-show=\"row.branch.gale_warning && !row.branch.expanded\">&nbsp;&nbsp;{{row.branch.gale_warning}}</a></td>\
+                          <td><a class = \"icon-hail-inv\" ng-show=\"row.branch.rainfall_advisory && !row.branch.expanded\">&nbsp;&nbsp;{{row.branch.rainfall_advisory}}</a></td>\
+                          <td><a class = \"icon-flood\" ng-show=\"row.branch.flooding && !row.branch.expanded\">&nbsp;&nbsp;{{row.branch.flooding}}</a></td>\
+                          <td><a class = \"icon-landslide\" ng-show=\"row.branch.landslide && !row.branch.expanded\">&nbsp;&nbsp;{{row.branch.landslide}}</a></td>\
+                          <td><a class = \"icon-storm_surge\" ng-show=\"row.branch.storm_surge && !row.branch.expanded\">&nbsp;&nbsp;{{row.branch.storm_surge}}</a></td>\
+                          <td><a class = \"icon-attention\" ng-show=\"row.branch.generaladvisory && !row.branch.expanded\">&nbsp;&nbsp;{{row.branch.generaladvisory}}</a></td>\
                       </tr>\
                       </tbody>\
                   </table>\
