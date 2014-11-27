@@ -18,6 +18,22 @@ angular.module('myApp.services')
      }
   });
 
+angular.module('myApp.services')
+  .service('fileUpload', ['$http', function($http) {
+      this.uploadFileToUrl = function(file, uploadUrl) {
+          var fd = new FormData();
+          fd.append('data', file);
+          $http.post(uploadUrl, fd, {
+              transformRequest: angular.identity,
+              headers: {'Content-Type': undefined},
+          })
+          .success(function(){
+          })
+          .error(function(){
+          });
+      }
+   }]);
+
 
 angular.module('myApp.services')
   .factory('Data', function($http, Config){

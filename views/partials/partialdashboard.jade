@@ -2,8 +2,18 @@
   .col-lg-12
     p Last update: {{last_update}}
     div
-       button(ng-click="showMap=true", class="btn btn-primary btn-file") Table View
-       button(ng-click="showMap=false", class="btn btn-primary btn-file") Map View
+        form(class="bs-example bs-example-form", role="form", enctype="multipart/form-data")
+            div(class="row")
+                div(class="col-lg-2")
+                    button(ng-click="showMap=true", class="btn btn-primary btn-file") Table View
+                    button(ng-click="showMap=false", class="btn btn-primary btn-file") Map View
+
+                div(class="col-lg-4")
+                    div(class="input-group")
+                        span(class="input-group-btn")
+                            button(ng-click="download()", class="btn btn-primary btn-file") Download
+                            button(ng-click="upload()", class="btn btn-primary btn-file") Upload
+                        input(type = "file", file-model="myFile", class="form-control", name="file", multiple)
     
     br
     br

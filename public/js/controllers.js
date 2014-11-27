@@ -12,7 +12,7 @@ function AppCtrl($scope, $http) {
   });
 }
 
-function MyCtrl1($scope, Data, $q, $filter, leafletEvents, leafletData) {
+function MyCtrl1($scope, Data, $q, $filter, leafletEvents, leafletData, fileUpload, $window) {
     /* DATA INITIALIZATION */
     $scope.data = [];
     $scope.treedata = [];
@@ -126,6 +126,41 @@ function MyCtrl1($scope, Data, $q, $filter, leafletEvents, leafletData) {
             });
         }
     });
+    
+    /* UPLOAD AND DOWNLOAD DATA */
+    var datatype = ['gale_warning', 'public_storm_signal', 'flooding', 'landslide', 'rainfall_advisory', 'storm_surge', 'generaladvisory'];
+    
+    $scope.upload = function() {
+        
+        var file = $scope.myFile;
+        if(typeof file !== "undefined") {
+            var uploadtype = $window.prompt("Select Data Type.");
+            console.log('controller: file is ' + JSON.stringify(file));
+            console.log(uploadtype);
+            if(datatype.indexOf(uploadtype) > -1) {
+                var uploadpath = document.location.origin + '/api/submit/' + uploadtype;
+                var goupload = $window.confirm('Upload ' + uploadtype + ' file?');
+                if (goupload === true) {
+                    fileUpload.uploadFileToUrl(file, uploadpath);
+                }
+            } else {
+                $window.alert("Data type not supported.");
+            }
+        } else {
+            $window.alert("No file chosen.");
+        }
+    };
+    
+    $scope.download = function() {
+        //$window.prompt("Download Files");
+        var downloadtype = $window.prompt("Select Data Type.");
+        var downloadpath = document.location.origin + '/api/data/' + downloadtype;
+        if(datatype.indexOf(downloadtype) > -1) {
+            $window.open(downloadpath, '_blank', '');
+        } else {
+            $window.alert("Data type not supported.");
+        }
+    };
     
     /* FUNCTIONS - ADD DATA FROM JSON TO TREEGRID DATA */
     function addNewEntry(location_id, type, data) {
@@ -343,6 +378,6 @@ function MyCtrl1($scope, Data, $q, $filter, leafletEvents, leafletData) {
     
     
 }
-MyCtrl1.$inject = ['$scope', 'Data', '$q', '$filter', 'leafletEvents', 'leafletData'];
+MyCtrl1.$inject = ['$scope', 'Data', '$q', '$filter', 'leafletEvents', 'leafletData', 'fileUpload', '$window'];
 
 
