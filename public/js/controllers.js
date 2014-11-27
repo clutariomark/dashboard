@@ -12,7 +12,7 @@ function AppCtrl($scope, $http) {
   });
 }
 
-function MyCtrl1($scope, Data, $q, $filter) {
+function MyCtrl1($scope, Data, $q, $filter, leafletEvents, leafletData) {
     /* DATA INITIALIZATION */
     $scope.data = [];
     $scope.treedata = [];
@@ -42,6 +42,81 @@ function MyCtrl1($scope, Data, $q, $filter) {
     }
     
     timer.start();
+    
+    /* LEAFLET FUNCTIONALITIES */
+    
+    angular.extend($scope, {
+                philippines: {
+                    lat: 12.987623,
+                    lng: 124,
+                    zoom: 6
+                },
+                defaults: {
+                    //scrollWheelZoom: false,
+                    minZoom: 6
+                },
+                legend: {
+                    position: 'bottomleft',
+                    colors: ["red", "orange", "yellow" ],
+                    labels: ["RED", "ORANGE", "YELLOW"]
+                }
+            });
+    
+    $scope.eventDetected = "No events yet...";
+    var mapEvents = leafletEvents.getAvailableMapEvents();
+    for (var k in mapEvents) {
+        var eventName = 'leafletDirectiveMap.' + mapEvents[k];
+        $scope.$on(eventName, function(event) {
+            $scope.eventDetected = event.name;
+        });
+    }
+    
+    $scope.$on("leafletDirectiveMap.geojsonMouseover", function(ev, leafletEvent) {
+        provinceMouseover(leafletEvent);
+    });
+    
+    $scope.$on("leafletDirectiveMap.geojsonClick", function(ev, featureSelected, leafletEvent) {
+        provinceClick(featureSelected, leafletEvent);
+    });
+    
+    $scope.$on("leafletDirectiveMap.click", function(event, args) {
+        var latlong = args.leafletEvent.latlng;
+        console.log('Lat: ' + latlong.lat + ' Lng: ' + latlong.lng);
+    });
+    
+    function provinceMouseover(leafletEvent) {
+        var layer = leafletEvent.target;
+            layer.setStyle({
+                weight: 2,
+                color: '#666',
+                fillOpacity: 0.5,
+
+            });
+            layer.bringToFront();
+    }
+    
+    function provinceClick(feature, leafletEvent) {
+        console.log(feature.properties.PROVINCE);
+    }
+    
+    function getJSON() {
+        return Data.getGeoJSON()
+            .then(function (data){
+                $scope.geojson = {data: data.data,
+                                  style: {
+                                        fillColor: "blue",
+                                        weight: 2,
+                                        opacity: 1,
+                                        color: 'white',
+                                        dashArray: '3',
+                                        fillOpacity: 0.5 
+                                  },
+                                  resetStyleOnMouseout: true
+                                 };
+        }, function (error) {
+            console.log(error);
+        });
+    }
     
     /* FUNCTIONS - ADD DATA FROM JSON TO TREEGRID DATA */
     function addNewEntry(location_id, type, data) {
@@ -169,6 +244,8 @@ function MyCtrl1($scope, Data, $q, $filter) {
             });
     }
     
+    /* FUNCTION TO MERGE ALL DATA INTO TREEGRID */
+    
     function mergePK(data) {
         var index = {}, result = [],
             key, src, dest;
@@ -226,7 +303,8 @@ function MyCtrl1($scope, Data, $q, $filter) {
         doFlooding(),
         doLandslides(),
         doStormSurge(),
-        doGeneralAdvisory()
+        doGeneralAdvisory(),
+        getJSON()
     ]).then(function (responses) {
         var tempdata;
         var temptempdata = [];
@@ -256,6 +334,6 @@ function MyCtrl1($scope, Data, $q, $filter) {
     
     
 }
-MyCtrl1.$inject = ['$scope', 'Data', '$q', '$filter'];
+MyCtrl1.$inject = ['$scope', 'Data', '$q', '$filter', 'leafletEvents', 'leafletData'];
 
 

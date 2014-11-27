@@ -1,5 +1,7 @@
 .row
   .col-lg-12
     p Last update: {{last_update}}
-    .gridStyle(ng-grid="gridOptions")
+    
       tree-grid(tree-data='treedata', expand-level="1", expand-on="expanding_property", col-defs="col_defs")
+      br
+      leaflet(defaults='defaults', center='philippines', geojson='geojson', legend='legend', events='events')

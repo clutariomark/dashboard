@@ -55,6 +55,10 @@ angular.module('myApp.services')
             //return $http.get(Config.api_url + '/data/generaladvisory');
             return $http.get('generaladvisory.json');
         };
+    
+        var getGeoJSON = function() {
+            return $http.get('provinces.json');
+        };
 
         return {
             getGaleWarning: getGaleWarning,
@@ -63,6 +67,7 @@ angular.module('myApp.services')
             getFlooding: getFlooding,
             getStormSurge: getStormSurge,
             getPublicStormSignal: getPublicStormSignal,
-            getGeneralAdvisory: getGeneralAdvisory
+            getGeneralAdvisory: getGeneralAdvisory,
+            getGeoJSON: getGeoJSON
         };
   })
