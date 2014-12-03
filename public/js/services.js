@@ -69,7 +69,7 @@ angular.module('myApp.services')
 
         var getGeneralAdvisory = function() {
             //return $http.get(Config.api_url + '/data/generaladvisory');
-            return $http.get('generaladvisory.json');
+            return $http.get('general_advisory.json');
         };
     
         var getGeoJSON = function() {

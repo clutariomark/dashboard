@@ -27,7 +27,7 @@
                           <td><a class = \"icon-hail-inv\" ng-show=\"row.branch.rainfall_advisory && !row.branch.expanded\">&nbsp;&nbsp;{{row.branch.rainfall_advisory}}</a></td>\
                           <td><a class = \"icon-flood\" ng-show=\"row.branch.flooding && !row.branch.expanded\">&nbsp;&nbsp;{{row.branch.flooding}}</a></td>\
                           <td><a class = \"icon-landslide\" ng-show=\"row.branch.landslide && !row.branch.expanded\">&nbsp;&nbsp;{{row.branch.landslide}}</a></td>\
-                          <td><a class = \"icon-storm_surge\" ng-show=\"row.branch.storm_surge && !row.branch.expanded\">&nbsp;&nbsp;{{row.branch.storm_surge}}</a></td>\
+                          <td><a class = \"icon-stormsurge\" ng-show=\"row.branch.storm_surge && !row.branch.expanded\">&nbsp;&nbsp;{{row.branch.storm_surge}}</a></td>\
                           <td><a class = \"icon-attention\" ng-show=\"row.branch.generaladvisory && !row.branch.expanded\">&nbsp;&nbsp;{{row.branch.generaladvisory}}</a></td>\
                       </tr>\
                       </tbody>\

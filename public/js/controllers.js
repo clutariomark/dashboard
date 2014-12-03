@@ -128,7 +128,7 @@ function MyCtrl1($scope, Data, $q, $filter, leafletEvents, leafletData, fileUplo
     });
     
     /* UPLOAD AND DOWNLOAD DATA */
-    var datatype = ['gale_warning', 'public_storm_signal', 'flooding', 'landslide', 'rainfall_advisory', 'storm_surge', 'generaladvisory'];
+    var datatype = ['gale_warning', 'public_storm_signal', 'flooding', 'landslide', 'rainfall_advisory', 'storm_surge', 'general_advisory'];
     
     $scope.upload = function() {
         

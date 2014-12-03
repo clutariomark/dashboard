@@ -1,11 +1,12 @@
 
 exports.data = {
-  high_winds : 'high_winds',
-  strong_rains : 'strong_rains',
+  public_storm_signal : 'public_storm_signal',
+  gale_warning : 'gale_warning',
+  rainfall_advisory : 'rainfall_advisory',
   flooding : 'flooding',
   landslide : 'landslide',
   storm_surge : 'storm_surge',
-  public_storm_signal : 'public_storm_signal'
+  general_advisory: 'general_advisory'
 };
 
 exports.FIELD_KEYS = ['id',
