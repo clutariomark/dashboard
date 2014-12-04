@@ -9,13 +9,11 @@ exports.data = {
   general_advisory: 'general_advisory'
 };
 
-exports.FIELD_KEYS = ['id',
+exports.FIELD_KEYS = ['region',
+                  'province',
                   'location',
-                  'location_id',
                   'value',
                   'unit',
-                  'description',
-                  'region',
-                  'province'];
+                  'description'];
 
 exports.SAVE_LOCATION = "uploaded_data";

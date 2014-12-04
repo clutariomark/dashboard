@@ -19,7 +19,7 @@
     br
     div(ng-model="showMap")
         div(ng-hide="!showMap", ng-cloak)
-            tree-grid(tree-data='treedata', expand-level="1", expand-on="expanding_property", col-defs="col_defs")
+            tree-grid(tree-data='treedata', expand-level="1", expand-on="expanding_property", col-defs="col_defs", on-select="my_tree_handler(branch)")
         div(ng-hide="showMap", ng-cloak)
             {{ geojson.selected.properties.PROVINCE || 'No province selected' }}
             leaflet(defaults='defaults', center='philippines', geojson='geojson', legend='legend', events='events')

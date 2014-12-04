@@ -19,6 +19,9 @@ function MyCtrl1($scope, Data, $q, $filter, leafletEvents, leafletData, fileUplo
     $scope.dates = [];
     $scope.col_defs = [];
     $scope.expanding_property='location';
+    $scope.my_tree_handler = function(branch){
+    	console.log('you clicked on', branch)
+    }
     
     /* AUTO-REFRESH TIMER CURRENT SETTINGS: refresh every 120 seconds */
     var timer = {
@@ -96,7 +99,7 @@ function MyCtrl1($scope, Data, $q, $filter, leafletEvents, leafletData, fileUplo
     }
     
     function provinceClick(feature, leafletEvent) {
-        console.log(feature.properties.PROVINCE);
+        console.log(feature.properties.PSS);
     }
     
     function getJSON() {
@@ -142,6 +145,7 @@ function MyCtrl1($scope, Data, $q, $filter, leafletEvents, leafletData, fileUplo
                 var goupload = $window.confirm('Upload ' + uploadtype + ' file?');
                 if (goupload === true) {
                     fileUpload.uploadFileToUrl(file, uploadpath);
+                    $window.location.reload();
                 }
             } else {
                 $window.alert("Data type not supported.");
@@ -341,14 +345,15 @@ function MyCtrl1($scope, Data, $q, $filter, leafletEvents, leafletData, fileUplo
     }
     
     $q.all([
+        getJSON(),
         doPublicStormSignal(),
         doGaleWarning(),
         doRainfallAdvisory(),
         doFlooding(),
         doLandslides(),
         doStormSurge(),
-        doGeneralAdvisory(),
-        getJSON()
+        doGeneralAdvisory()
+        
     ]).then(function (responses) {
         var tempdata;
         var temptempdata = [];
