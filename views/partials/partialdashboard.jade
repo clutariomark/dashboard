@@ -4,22 +4,38 @@
     div
         form(class="bs-example bs-example-form", role="form", enctype="multipart/form-data")
             div(class="row")
-                div(class="col-lg-2")
-                    button(ng-click="showMap=true", class="btn btn-primary btn-file") Table View
-                    button(ng-click="showMap=false", class="btn btn-primary btn-file") Map View
-
-                div(class="col-lg-4")
-                    div(class="input-group")
-                        span(class="input-group-btn")
-                            button(ng-click="download()", class="btn btn-primary btn-file") Download
-                            button(ng-click="upload()", class="btn btn-primary btn-file") Upload
-                        input(type = "file", file-model="myFile", class="form-control", name="file", multiple)
-    
+                button(ng-click="showMap=true", class="btn btn-primary btn-file") Table View
+                button(ng-click="showMap=false", class="btn btn-primary btn-file") Map View
+            div(class="input-group")
+                span(class="input-group-btn")
+                    button(ng-click="download()", class="btn btn-primary btn-file") Download
+                    button(ng-click="upload()", class="btn btn-primary btn-file") Upload
+                input(type = "file", file-model="myFile", class="form-control", name="file", multiple)
     br
-    br
-    div(ng-model="showMap")
+    div(ng-model="showMap", id="map")
         div(ng-hide="!showMap", ng-cloak)
-            tree-grid(tree-data='treedata', expand-level="1", expand-on="expanding_property", col-defs="col_defs", on-select="my_tree_handler(branch)")
+            tree-grid(tree-data="treedata", expand-level="1", expand-on="expanding_property", col-defs="col_defs", on-select="my_tree_handler(branch)")
         div(ng-hide="showMap", ng-cloak)
-            {{ geojson.selected.properties.PROVINCE || 'No province selected' }}
-            leaflet(defaults='defaults', center='philippines', geojson='geojson', legend='legend', events='events')
+            div(class="info country f32", ng-hide="!showInfo")
+                | Province: {{ geojson.selected.properties.PROVINCE || 'No Province Selected'}} [ {{ geojson.selected.properties[leafletprop][0].toUpperCase() || 'No Warning' }} ]
+            div(class="info country f32", ng-hide="showInfo")
+                | Municipality: {{ geojsonmunicipality.selected.properties.MUNICIPAL || 'No Municipality Selected'}} [ {{ geojsonmunicipality.selected.properties[leafletprop][0].toUpperCase() || 'No Warning' }} ]
+            div(class="box")
+                    button(ng-click="mapMunicipal(); showInfo=false", class="btn btn-success btn-file") Municipality
+                    button(ng-click="mapProvince(); showInfo=true", class="btn btn-success btn-file") Province
+            form(name="leafletform")
+                input(type="radio", ng-model = "leafletprop", value="PSS") 
+                | Public Storm Signal 
+                input(type="radio", ng-model = "leafletprop", value="GW")
+                | Gale Warning 
+                input(type="radio", ng-model = "leafletprop", value="RA")
+                | Rainfall Advisory 
+                input(type="radio", ng-model = "leafletprop", value="F")
+                | Flooding 
+                input(type="radio", ng-model = "leafletprop", value="L")
+                | Landslide 
+                input(type="radio", ng-model = "leafletprop", value="SS")
+                | Storm Surge 
+                input(type="radio", ng-model = "leafletprop", value="GA")
+                | General Advisory 
+            div(compile = "leafletcompile")

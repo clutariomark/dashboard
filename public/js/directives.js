@@ -17,7 +17,6 @@ angular.module('myApp.directives').
             link: function(scope, element, attrs) {
                 var model = $parse(attrs.fileModel);
                 var modelSetter = model.assign;
-                
                 console.log('directives: ' + element[0].files[0]);
                 element.bind('change', function() {
                     scope.$apply(function() {
@@ -27,3 +26,19 @@ angular.module('myApp.directives').
             }
         };
     }]);
+
+angular.module('myApp.directives').
+    directive('compile', function($compile) {
+        return function(scope, element, attrs) {
+            scope.$watch(
+                function(scope) {
+                    return scope.$eval(attrs.compile);
+                },
+
+                function(value) {
+                    element.html(value);
+                    $compile(element.contents())(scope);
+                }
+            );
+        };
+    });

@@ -34,6 +34,7 @@ var FIELD_KEYS = config.FIELD_KEYS;
 */
 exports.submit = function (req, res) {
   console.log('<------------------------------------------->');
+  console.log(req.files)
   for(var propertyName in req.headers){
     console.log('headers.property: ' + propertyName + ' - ' + req.headers[propertyName]);
   }
@@ -85,6 +86,8 @@ exports.submit = function (req, res) {
 
     res.json({file: data, data: _data});
   });
+    
+  fs.writeFile(path.join(filePath , type + '.csv'), csv);
   
 }
 
@@ -94,10 +97,25 @@ exports.data = function (req, res) {
     return res.send(404, 'Invalid type. Not supported');
   }
 
-  var filePath = path.join(__dirname, '../', config.SAVE_LOCATION, type + '.json');
+/*  var filePath = path.join(__dirname, '../', config.SAVE_LOCATION, type + '.json');
   if(fs.existsSync(filePath)) {
     var data = fs.readFileSync(filePath, 'utf8');
     return res.json(JSON.parse(data));
+  }else {
+    return res.json([]);
+  }*/
+    
+  var filePath = path.join(__dirname, '../', config.SAVE_LOCATION, type + '.csv');
+  if(fs.existsSync(filePath)) {
+    var options = {
+        dotfiles: 'deny',
+        headers: {
+            'x-timestamp': Date.now(),
+            'x-sent': true
+        }
+    };
+    console.log(filePath);
+    return res.sendFile(filePath, options); 
   }else {
     return res.json([]);
   }
@@ -192,6 +210,3 @@ function getAllRegion(cb) {
     });
   });
 }
-
-
-

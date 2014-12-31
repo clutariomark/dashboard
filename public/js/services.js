@@ -72,8 +72,24 @@ angular.module('myApp.services')
             return $http.get('general_advisory.json');
         };
     
-        var getGeoJSON = function() {
+        var getProvinceGeoJSON = function() {
             return $http.get('provinces.json');
+        };
+    
+        var getMunicipalityGeoJSON = function() {
+            return $http.get('municipal.geojson');
+        };
+    
+        var getProvinceIndex = function() {
+            return $http.get('provinceindex.json');
+        };
+    
+        var getMunicipalIndex = function() {
+            return $http.get('municipalindex.json');
+        };
+    
+        var getProvinceNames = function() {
+            return $http.get('provincenames.json');
         };
 
         return {
@@ -84,6 +100,10 @@ angular.module('myApp.services')
             getStormSurge: getStormSurge,
             getPublicStormSignal: getPublicStormSignal,
             getGeneralAdvisory: getGeneralAdvisory,
-            getGeoJSON: getGeoJSON
+            getProvinceGeoJSON: getProvinceGeoJSON,
+            getMunicipalityGeoJSON: getMunicipalityGeoJSON,
+            getProvinceIndex: getProvinceIndex,
+            getMunicipalIndex: getMunicipalIndex,
+            getProvinceNames: getProvinceNames
         };
   })

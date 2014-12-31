@@ -22,11 +22,11 @@ block body
           a(href="hrs_24") 24 Hours 
   .container      
     div(ng-controller='AppCtrl')
-      div(ng-view)
+      div(ng-view, ng-mousemove='timer.stop()')
     hr  
     div
       | volksmann
-
+         
   script(src='js/lib/angular/angular.js')
   script(src='js/lib/angular/angular-route.js')
   script(src='js/app.js')
@@ -41,3 +41,4 @@ block body
   script(src='leaflet/leaflet-src.js')
   script(src='leaflet/leaflet.js')
   script(src='angular-leaflet-directive/angular-leaflet-directive-min.js')
+  script(src='oclazyload/dist/ocLazyLoad.js')
