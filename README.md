@@ -11,8 +11,7 @@ This is an application for PAGASA showing a general overview of the different st
 ##**General Format of Payloads**##
 
 ##As JSON##
-```
-#!javascript
+```javascript
 {
 	"region":"Region VI", //required
 	"province":"Antique", //required
