@@ -1,10 +1,12 @@
 This is an application for PAGASA showing a general overview of the different status of location based on the ff:
 
-1. **Strong Rains**
-2. **High Winds**
-3. **Flooding**
-4. **Landslide**
-5. **Storm Surge**
+1. **Public Storm Signal**
+2. **Gale Warning**
+3. **Rainfall**
+4. **Flooding**
+5. **Landslide**
+6. **Storm Surge**
+7. **Others**
 
 ##**General Format of Payloads**##
 
@@ -12,21 +14,20 @@ This is an application for PAGASA showing a general overview of the different st
 ```
 #!javascript
 {
-    "id" : 1, //optional but good to have
-    "location" : "Pasig City", //required
-    "location_id" : 19, //required
-    "value" : 778, //required
-    "unit" : "mm Hg", //optional
-    "description" : "Normal Value" //required
+	"region":"Region VI", //required
+	"province":"Antique", //required
+	"location":"All Cities and Municipalities", //required
+	"value":"", //optional
+	"unit":"", //optional
+	"description":"high risk" //required
 },
-{
-    "id" : 2, //optional but good to have
-    "location" : "Quezon City", //required
-    "location_id" : 20, //required
-    "value" : 778, //required
-    "unit" : "mm Hg", //optional
-    "description" : "Normal Value" //required
-},
+{	"region":"NCR", //required
+	"province":"Metropolitan Manila", //required
+	"location":"Kalookan City", //required
+	"value":"", //optional
+	"unit":"", //optional
+	"description":"high risk" //required
+}
 
 ```
 
@@ -35,8 +36,11 @@ This is an application for PAGASA showing a general overview of the different st
 There should be 6 columns. Just skip the column if there are no values.
 
 ```
-1,Pasig City,19,778,mm Hg,Normal Value  
-2,Quezon City,20,778,mm Hg,Normal Value
+NCR,Metropolitan Manila,Kalookan City,,,high risk
+NCR,Metropolitan Manila,Las Piñas,,,high risk
+NCR,Metropolitan Manila,Makati City,,,high risk
+Region VI,Antique,All Cities and Municipalities,30 - 60,kph,signal #1
+Region VI,Guimaras,All Cities and Municipalities,61 - 100,kph,signal #2
+Region VI,Iloilo,All Cities and Municipalities,30 - 60,kph,signal #1
 
 ```
-
