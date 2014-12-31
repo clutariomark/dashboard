@@ -20,7 +20,8 @@ This is an application for PAGASA showing a general overview of the different st
 	"unit":"", //optional
 	"description":"high risk" //required
 },
-{	"region":"NCR", //required
+{	
+    "region":"NCR", //required
 	"province":"Metropolitan Manila", //required
 	"location":"Kalookan City", //required
 	"value":"", //optional
