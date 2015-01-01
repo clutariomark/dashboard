@@ -6,7 +6,7 @@
                 //templateUrl:'tree-grid-template.html',
                 //template:"<div><table class=\"table table-bordered table-striped tree-grid\"><thead class=\"text-primary\"><tr><th>{{expandingProperty.displayName}}</th><th ng-repeat=\"col in colDefinitions\">{{col.displayName || col.field}}</th></tr></thead><tbody><tr ng-repeat=\"row in tree_rows | filter:{visible:true} track by row.branch.uid\" ng-class=\"'level-' + {{ row.level }} + (row.branch.selected ? ' active':'')\" class=\"tree-grid-row\"><td class=\"text-primary\"><a ng-click=\"user_clicks_branch(row.branch)\"><i ng-class=\"row.tree_icon\" ng-click=\"row.branch.expanded = !row.branch.expanded\" class=\"indented tree-icon\"></i></a><span class=\"indented tree-label\">{{row.branch[expandingProperty.field]}}</span></td><td ng-repeat=\"col in colDefinitions\">{{row.branch[col.field]}}</td></tr></tbody><table></div>" , <td ng-repeat=\"col in colDefinitions\"><span >{{row.branch[col.field]}}</span></td>\
                 template: "<div class=\"table-responsive\">\
-                  <table class=\"table table-bordered table-striped tree-grid\">\
+                  <table class=\"table table-bordered tree-grid\">\
                       <thead class=\"text-primary\">\
                       <tr>\
                           <th width='20%'>Location</th>\
@@ -22,13 +22,13 @@
                               </a><span class=\"indented tree-label headercolumn\" ng-click=\"user_clicks_branch(row.branch)\">\
                                 {{row.branch[expandingProperty]}}</span>\
                           </td>\
-                          <td><a class = \"icon-signal1\" ng-show=\"row.branch.public_storm_signal && !row.branch.expanded\">&nbsp;&nbsp;{{row.branch.public_storm_signal}}</a></td>\
-                          <td><a class = \"icon-gale\" ng-show=\"row.branch.gale_warning && !row.branch.expanded\">&nbsp;&nbsp;{{row.branch.gale_warning}}</a></td>\
-                          <td><a class = \"icon-hail-inv\" ng-show=\"row.branch.rainfall_advisory && !row.branch.expanded\">&nbsp;&nbsp;{{row.branch.rainfall_advisory}}</a></td>\
-                          <td><a class = \"icon-flood\" ng-show=\"row.branch.flooding && !row.branch.expanded\">&nbsp;&nbsp;{{row.branch.flooding}}</a></td>\
-                          <td><a class = \"icon-landslide\" ng-show=\"row.branch.landslide && !row.branch.expanded\">&nbsp;&nbsp;{{row.branch.landslide}}</a></td>\
-                          <td><a class = \"icon-stormsurge\" ng-show=\"row.branch.storm_surge && !row.branch.expanded\">&nbsp;&nbsp;{{row.branch.storm_surge}}</a></td>\
-                          <td><a class = \"icon-attention\" ng-show=\"row.branch.generaladvisory && !row.branch.expanded\">&nbsp;&nbsp;{{row.branch.generaladvisory}}</a></td>\
+                          <td ng-init=\"datum1 = row.branch.public_storm_signal.split(', ')[1]\" ng-class=\"{pss1: datum1 === 'signal #1', pss2: datum1 === 'signal #2', pss3: datum1 === 'signal #3', pss4: datum1 === 'signal #4', normal: row.branch.public_storm_signal === true && !row.branch.expanded}\"><a ng-class=\"{blacktext: row.branch.public_storm_signal}\" ng-show=\"row.branch.public_storm_signal && !row.branch.expanded\">{{row.branch.public_storm_signal}}</a></td>\
+                          <td ng-init=\"datum2 = row.branch.gale_warning.split(', ')[1]\" ng-class=\"{pss1: datum2 === 'low risk', pss2: datum2 === 'medium risk', pss3: datum2 === 'high risk', normal: row.branch.gale_warning === true && !row.branch.expanded}\"><a ng-class=\"{blacktext: row.branch.public_storm_signal}\" ng-show=\"row.branch.gale_warning && !row.branch.expanded\">{{row.branch.gale_warning}}</a></td>\
+                          <td ng-init=\"datum3 = row.branch.rainfall_advisory.split(', ')[1]\" ng-class=\"{pss1: datum3 === 'low risk', pss2: datum3 === 'medium risk', pss3: datum3 === 'high risk', normal: row.branch.rainfall_advisory === true && !row.branch.expanded}\"><a ng-class=\"{blacktext: row.branch.rainfall_advisory}\" ng-show=\"row.branch.rainfall_advisory && !row.branch.expanded\">{{row.branch.rainfall_advisory}}</a></td>\
+                          <td ng-init=\"datum4 = row.branch.flooding.split(', ')[1]\" ng-class=\"{pss1: datum4 === 'low risk', pss2: datum4 === 'medium risk', pss3: datum4 === 'high risk', normal: row.branch.flooding === true && !row.branch.expanded}\"><a ng-class=\"{blacktext: row.branch.flooding}\" ng-show=\"row.branch.flooding && !row.branch.expanded\">{{row.branch.flooding}}</a></td>\
+                          <td ng-init=\"datum5 = row.branch.landslide.split(', ')[1]\" ng-class=\"{pss1: datum5 === 'low risk', pss2: datum5 === 'medium risk', pss3: datum5 === 'high risk', normal: row.branch.landslide === true && !row.branch.expanded}\"><a ng-class=\"{blacktext: row.branch.landslide}\" ng-show=\"row.branch.landslide && !row.branch.expanded\">{{row.branch.landslide}}</a></td>\
+                          <td ng-init=\"datum6 = row.branch.storm_surge.split(', ')[1]\" ng-class=\"{pss1: datum6 === 'SSA #1', pss2: datum6 === 'SSA #2', pss3: datum6 === 'SSA #3', pss4: datum6 === 'SSA #4', normal: row.branch.storm_surge === true && !row.branch.expanded}\"><a ng-class=\"{blacktext: row.branch.storm_surge}\" ng-show=\"row.branch.storm_surge && !row.branch.expanded\">{{row.branch.storm_surge}}</a></td>\
+                          <td ng-init=\"datum7 = row.branch.generaladvisory.split(', ')[1]\" ng-class=\"{pss1: datum7 === 'low risk', pss2: datum7 === 'medium risk', pss3: datum7 === 'high risk', normal: row.branch.generaladvisory === true && !row.branch.expanded}\"><a ng-class=\"{blacktext: row.branch.generaladvisory}\" ng-show=\"row.branch.generaladvisory && !row.branch.expanded\">{{row.branch.generaladvisory}}</a></td>\
                       </tr>\
                       </tbody>\
                   </table>\

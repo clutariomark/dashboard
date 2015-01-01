@@ -3,7 +3,7 @@
     p Last update: {{last_update}}
     div
         form(class="bs-example bs-example-form", role="form", enctype="multipart/form-data")
-            div(class="row")
+            div(class="buttonrow")
                 button(ng-click="showMap=true", class="btn btn-primary btn-file") Table View
                 button(ng-click="showMap=false", class="btn btn-primary btn-file") Map View
             div(class="input-group")
@@ -14,6 +14,7 @@
     br
     div(ng-model="showMap", id="map")
         div(ng-hide="!showMap", ng-cloak)
+            br
             tree-grid(tree-data="treedata", expand-level="1", expand-on="expanding_property", col-defs="col_defs", on-select="my_tree_handler(branch)")
         div(ng-hide="showMap", ng-cloak)
             div(class="info country f32", ng-hide="!showInfo")

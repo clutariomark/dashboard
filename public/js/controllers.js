@@ -30,7 +30,7 @@ function MyCtrl1($scope, Data, $q, $filter, leafletEvents, leafletData, fileUplo
     /* AUTO-REFRESH TIMER CURRENT SETTINGS: refresh every 120 seconds */
     $scope.timer = {
         interval: null,
-        seconds: 120,
+        seconds: 3600,
         
         start: function() {
             var self = this;
@@ -94,7 +94,7 @@ function MyCtrl1($scope, Data, $q, $filter, leafletEvents, leafletData, fileUplo
     /* FUNCTIONS - ADD DATA FROM JSON TO TREEGRID DATA */
     function addNewEntry(location_id, type, data) {
         var datum;
-        var value = data.value + ' ' + data.unit + ', ' + data.description;
+        var value = data.value + ' ' + data.unit + ', ' + data.description.split('\r')[0];
 
         datum = {location: data.region};
         datum[type] = true;
@@ -107,17 +107,17 @@ function MyCtrl1($scope, Data, $q, $filter, leafletEvents, leafletData, fileUplo
     
     function addGeoJSONEntry(attr, data) {
         var datum;
-        datum = data.description;
-        $scope.geojson.data.features[Number($scope.provinceindex[data.province])].properties[attr].push(data.description);
+        datum = data.description.split("\r")[0];
+        $scope.geojson.data.features[Number($scope.provinceindex[data.province])].properties[attr].push(datum);
         if (data.location === "All Cities and Municipalities") {
             var province = $scope.provincenames[data.province];
             for (var i = 0; i < province.length; i++) {
                 var indexmunicipal = province[i] + ", " + data.province;
-                $scope.geojsonmunicipality.data.features[Number($scope.municipalindex[indexmunicipal])].properties[attr].push(data.description);
+                $scope.geojsonmunicipality.data.features[Number($scope.municipalindex[indexmunicipal])].properties[attr].push(datum);
             }
         } else {
             var indexmunicipal = data.location + ", " + data.province;
-            $scope.geojsonmunicipality.data.features[Number($scope.municipalindex[indexmunicipal])].properties[attr].push(data.description);
+            $scope.geojsonmunicipality.data.features[Number($scope.municipalindex[indexmunicipal])].properties[attr].push(datum);
         }
     }
     
@@ -286,11 +286,11 @@ function MyCtrl1($scope, Data, $q, $filter, leafletEvents, leafletData, fileUplo
     $scope.philippines = {
         lat: 12.987623,
         lng: 124,
-        zoom: 5
+        zoom: 6
     };
     
     $scope.defaults = {
-        minZoom: 5
+        minZoom: 6
     };
     
     $scope.eventDetected = "No events yet...";
@@ -382,23 +382,23 @@ function MyCtrl1($scope, Data, $q, $filter, leafletEvents, leafletData, fileUplo
     }
     
     var signalcolor = {
-        "signal #1\r": "yellow",
-        "signal #2\r": "orange",
-        "signal #3\r": "red",
-        "signal #4\r": "#4B0082"
+        "signal #1": "yellow",
+        "signal #2": "orange",
+        "signal #3": "red",
+        "signal #4": "#4B0082"
     }
     
     var stormsurgecolor = {
-        "SSA #1\r": "yellow",
-        "SSA #2\r": "orange",
-        "SSA #3\r": "red",
-        "SSA #4\r": "#4B0082"
+        "SSA #1": "yellow",
+        "SSA #2": "orange",
+        "SSA #3": "red",
+        "SSA #4": "#4B0082"
     }
     
     var othercolor = {
-        "low risk\r": "yellow",
-        "medium risk\r": "orange",
-        "high risk\r": "red"
+        "low risk": "yellow",
+        "medium risk": "orange",
+        "high risk": "red"
     }
     
     function getStyle(feature){
@@ -414,10 +414,10 @@ function MyCtrl1($scope, Data, $q, $filter, leafletEvents, leafletData, fileUplo
         }
         return {
             fillColor: maincolor,
-            weight: 2,
+            weight: 1,
             opacity: 1,
             color: 'white',
-            dashArray: '3',
+            //dashArray: '3',
             fillOpacity: 0.5
         };
     }
@@ -483,9 +483,6 @@ function MyCtrl1($scope, Data, $q, $filter, leafletEvents, leafletData, fileUplo
                         $scope.municipalindex = listmunicipal;
                         $scope.geojson.style = getStyle;
                         $scope.geojsonmunicipality.style = getStyle;
-                        console.log(provincedata);
-                        console.log(municipaldata);
-                        console.log(listmunicipal);
                         $q.all([
                             doPublicStormSignal(),
                             doGaleWarning(),
