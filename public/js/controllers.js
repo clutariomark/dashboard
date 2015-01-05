@@ -54,28 +54,41 @@ function MyCtrl1($scope, Data, $q, $filter, leafletEvents, leafletData, fileUplo
     /* UPLOAD AND DOWNLOAD DATA */
     var datatype = ['gale_warning', 'public_storm_signal', 'flooding', 'landslide', 'rainfall_advisory', 'storm_surge', 'general_advisory'];
     
-    $scope.upload = function() {
+    $scope.showModal = false;
+    $scope.toggleModal = function() {
+        $scope.showModal = !$scope.showModal;
+        var password = $scope.loginpassword;
+        console.log(password);
+    };
+    
+    $scope.upload = function(password) {
+        console.log(password);
         console.log($scope.myFile);
         setTimeout(function () {
+            if(password === "dost_pagasa") {
             var file = $scope.myFile;
-            console.log(file);
-            if(typeof file !== "undefined") {
-                var uploadtype = $window.prompt("Select Data Type.");
-                console.log('controller: file is ' + JSON.stringify(file));
-                console.log(uploadtype);
-                if(datatype.indexOf(uploadtype) > -1) {
-                    var uploadpath = document.location.origin + '/api/submit/' + uploadtype;
-                    var goupload = $window.confirm('Upload ' + uploadtype + ' file?');
-                    if (goupload === true) {
-                        fileUpload.uploadFileToUrl(file, uploadpath);
-                        $window.location.reload();
-                    }
+                console.log(file);
+                if(typeof file !== "undefined") {
+                  var uploadtype = $window.prompt("Select Data Type.");
+                  console.log('controller: file is ' + JSON.stringify(file));
+                  console.log(uploadtype);
+                  if(datatype.indexOf(uploadtype) > -1) {
+                      var uploadpath = document.location.origin + '/api/submit/' + uploadtype;
+                      var goupload = $window.confirm('Upload ' + uploadtype + ' file?');
+                      if (goupload === true) {
+                          fileUpload.uploadFileToUrl(file, uploadpath);
+                          $window.location.reload();
+                      }
+                  } else {
+                      $window.alert("Data type not supported.");
+                  }
                 } else {
-                    $window.alert("Data type not supported.");
+                  $window.alert("No file chosen.");
                 }
             } else {
-                $window.alert("No file chosen.");
+                $window.alert("You do not have permission to upload files");
             }
+            $scope.showModal = false;
         }, 0);
     };
     
@@ -97,9 +110,9 @@ function MyCtrl1($scope, Data, $q, $filter, leafletEvents, leafletData, fileUplo
         var value = data.value + ' ' + data.unit + ', ' + data.description.split('\r')[0];
 
         datum = {location: data.region};
-        datum[type] = true;
+        datum[type] = 'warning uploaded';
         datum['children'] = [{location: data.province}];
-        datum['children'][0][type] = true;
+        datum['children'][0][type] = 'warning uploaded';
         datum['children'][0]['children'] = [{location: data.location}];
         datum['children'][0]['children'][0][type] = value;
         $scope.data.push(datum);

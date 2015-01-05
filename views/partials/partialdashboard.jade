@@ -2,6 +2,12 @@
   .col-lg-12
     p Last update: {{last_update}}
     div
+        modal(title="Login form", visible="showModal")
+            form(role="form")
+                div(class="form-group")
+                    label(for="password") Password
+                    input(type="password", class="form-control", id="password", placeholder="Password", ng-model="loginpassword", required)
+                button(type="submit", class="btn btn-default", ng-click="upload(loginpassword)") Submit
         form(class="bs-example bs-example-form", role="form", enctype="multipart/form-data")
             div(class="buttonrow")
                 button(ng-click="showMap=true", class="btn btn-primary btn-file") Table View
@@ -9,7 +15,7 @@
             div(class="input-group")
                 span(class="input-group-btn")
                     button(ng-click="download()", class="btn btn-primary btn-file") Download
-                    button(ng-click="upload()", class="btn btn-primary btn-file") Upload
+                    button(ng-click="toggleModal()", class="btn btn-primary btn-file") Upload
                 input(type = "file", file-model="myFile", class="form-control", name="file", multiple)
     br
     div(ng-model="showMap", id="map")
