@@ -1,4 +1,4 @@
-This is an application for PAGASA showing a general overview of the different status of location based on the ff:
+This is an application showing a general overview of the different status of location based on the ff:
 
 1. **Public Storm Signal**
 2. **Gale Warning**
